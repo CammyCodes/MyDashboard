@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wellness Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #ffffff;
+            color: #212121;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #f8f9fa;
+        }
+
+        .main-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #007bff;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #6c757d;
+            font-weight: 300;
+        }
+
+        .date-info {
+            background: #f8f9fa;
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+            text-align: center;
+            border: 1px solid #e9ecef;
+        }
+
+        .current-date {
+            font-size: 1.1rem;
+            color: #007bff;
+            font-weight: 600;
+        }
+
+        .widgets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .widget {
+            background: #ffffff;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .widget:hover {
+            border-color: #007bff;
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .widget-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .widget-icon {
+            width: 50px;
+            height: 50px;
+            background: #007bff;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .widget-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #212121;
+        }
+
+        .widget-content {
+            color: #6c757d;
+            line-height: 1.5;
+        }
+
+        .progress-widget .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .progress-widget .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #007bff, #0056b3);
+            border-radius: 4px;
+            transition: width 0.8s ease;
+        }
+
+        .progress-text {
+            font-size: 0.9rem;
+            color: #007bff;
+            font-weight: 600;
+        }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #007bff;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .navigation {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .nav-card {
+            background: #ffffff;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            text-decoration: none;
+            color: #212121;
+            transition: all 0.3s ease;
+            display: block;
+        }
+
+        .nav-card:hover {
+            border-color: #007bff;
+            box-shadow: 0 8px 25px rgba(0, 123, 255, 0.15);
+            transform: translateY(-3px);
+            text-decoration: none;
+            color: #212121;
+        }
+
+        .nav-icon {
+            width: 70px;
+            height: 70px;
+            background: #f8f9fa;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 20px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-card:hover .nav-icon {
+            background: #007bff;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .nav-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .nav-description {
+            color: #6c757d;
+            font-size: 0.95rem;
+        }
+
+        .quick-actions {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .quick-actions h3 {
+            margin-bottom: 20px;
+            color: #212121;
+            font-weight: 600;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #007bff;
+            color: #007bff;
+        }
+
+        .btn-outline:hover {
+            background: #007bff;
+            color: white;
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-complete {
+            background: #28a745;
+        }
+
+        .status-pending {
+            background: #ffc107;
+        }
+
+        .status-inactive {
+            background: #6c757d;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .main-title {
+                font-size: 2.2rem;
+            }
+
+            .widgets-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navigation {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="main-title">Wellness Dashboard</h1>
+            <p class="subtitle">Your personal health & fitness command center</p>
+        </div>
+
+        <div class="date-info">
+            <div class="current-date" id="currentDate">Loading...</div>
+        </div>
+
+        <div class="widgets-grid">
+            <div class="widget progress-widget">
+                <div class="widget-header">
+                    <div class="widget-icon">🧴</div>
+                    <div class="widget-title">Today's Skincare</div>
+                </div>
+                <div class="widget-content">
+                    <div id="skincareStatus">Loading routine...</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="skincareProgress" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-text" id="skincareProgressText">0% Complete</div>
+                </div>
+            </div>
+
+            <div class="widget progress-widget">
+                <div class="widget-header">
+                    <div class="widget-icon">💪</div>
+                    <div class="widget-title">Fitness Progress</div>
+                </div>
+                <div class="widget-content">
+                    <div id="fitnessStatus">Loading workout...</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="fitnessProgress" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-text" id="fitnessProgressText">0% Complete</div>
+                </div>
+            </div>
+
+            <div class="widget">
+                <div class="widget-header">
+                    <div class="widget-icon">🔥</div>
+                    <div class="widget-title">Streaks</div>
+                </div>
+                <div class="widget-content">
+                    <div class="stat-number" id="skincareStreak">0</div>
+                    <div class="stat-label">Skincare Days</div>
+                    <hr style="margin: 15px 0; border: none; border-top: 1px solid #e9ecef;">
+                    <div class="stat-number" id="fitnessStreak">0</div>
+                    <div class="stat-label">Workout Days</div>
+                </div>
+            </div>
+
+            <div class="widget">
+                <div class="widget-header">
+                    <div class="widget-icon">📊</div>
+                    <div class="widget-title">Weekly Summary</div>
+                </div>
+                <div class="widget-content">
+                    <div id="weeklyStats">
+                        <div><span class="status-indicator status-complete"></span>Skincare: 5/7 days</div>
+                        <div><span class="status-indicator status-pending"></span>Fitness: 3/5 planned</div>
+                        <div><span class="status-indicator status-complete"></span>Overall: On track</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <a href="skincare.html" class="nav-card">
+                <div class="nav-icon">🧴</div>
+                <div class="nav-title">Skincare Hub</div>
+                <div class="nav-description">Manage your daily AM/PM routines with day-specific treatments</div>
+            </a>
+
+            <a href="fitness.html" class="nav-card">
+                <div class="nav-icon">💪</div>
+                <div class="nav-title">Fitness Hub</div>
+                <div class="nav-description">Track your 11-week transformation workout plan</div>
+            </a>
+        </div>
+
+        <div class="quick-actions">
+            <h3>Quick Actions</h3>
+            <div class="action-buttons">
+                <a href="skincare.html?mode=walkthrough" class="btn btn-primary">Start Skincare Routine</a>
+                <a href="fitness.html?mode=workout" class="btn btn-primary">Begin Workout</a>
+                <a href="skincare.html?mode=edit" class="btn btn-outline">Edit Routines</a>
+                <a href="#" class="btn btn-outline" onclick="resetAllData()">Reset All Data</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize app data structure
+        function initializeAppData() {
+            const defaultData = {
+                skincare: {
+                    amRoutine: [
+                        {
+                            step: "Cleanse",
+                            product: "Kiehl's Blue Herbal Acne Cleanser Treatment",
+                            details: "Remove overnight oil buildup without stripping your skin",
+                            link: ""
+                        },
+                        {
+                            step: "Treat",
+                            product: "Kiehl's Ultra Pure High-Potency Serum 5.0% Niacinamide",
+                            details: "Apply a few drops to control oil and reduce redness",
+                            link: ""
+                        },
+                        {
+                            step: "Moisturise",
+                            product: "Kiehl's Ultra Facial Oil-Free Gel Cream",
+                            details: "Apply a pea-sized amount for lightweight, shine-free hydration",
+                            link: ""
+                        },
+                        {
+                            step: "Protect (SPF)",
+                            product: "Kiehl's Ultra Light Daily UV Defense SPF 50 PA++++",
+                            details: "Apply liberally as the final step - crucial for preventing acne marks",
+                            link: ""
+                        }
+                    ],
+                    pmRoutineBasic: [
+                        {
+                            step: "First Cleanse",
+                            product: "Kiehl's Midnight Recovery Botanical Cleansing Oil",
+                            details: "On dry face, massage to dissolve SPF and oil. Add water to emulsify, then rinse",
+                            link: ""
+                        },
+                        {
+                            step: "Second Cleanse",
+                            product: "Kiehl's Blue Herbal Acne Cleanser Treatment",
+                            details: "On damp face, use morning cleanser to wash the skin itself",
+                            link: ""
+                        },
+                        {
+                            step: "Moisturise",
+                            product: "Kiehl's Ultra Facial Oil-Free Gel Cream",
+                            details: "Use same moisturiser as AM routine to hydrate and support skin",
+                            link: ""
+                        }
+                    ],
+                    pmRoutineWithTreatment: [
+                        {
+                            step: "First Cleanse",
+                            product: "Kiehl's Midnight Recovery Botanical Cleansing Oil",
+                            details: "On dry face, massage to dissolve SPF and oil. Add water to emulsify, then rinse",
+                            link: ""
+                        },
+                        {
+                            step: "Second Cleanse",
+                            product: "Kiehl's Blue Herbal Acne Cleanser Treatment",
+                            details: "On damp face, use morning cleanser to wash the skin itself",
+                            link: ""
+                        },
+                        {
+                            step: "Exfoliate/Treat",
+                            product: "Kiehl's Expertly Clear Blemish-Treating & Preventing Lotion",
+                            details: "On clean, dry skin, apply to clear blackheads and prevent blemishes (2-3x per week only)",
+                            link: ""
+                        },
+                        {
+                            step: "Moisturise",
+                            product: "Kiehl's Ultra Facial Oil-Free Gel Cream",
+                            details: "Use same moisturiser as AM routine to hydrate and support skin",
+                            link: ""
+                        }
+                    ],
+                    bodyAcne: [
+                        {
+                            step: "In-Shower Wash",
+                            product: "CeraVe SA Smoothing Cleanser with Salicylic Acid",
+                            details: "Lather and leave on chest/back for 1-2 minutes before rinsing",
+                            link: ""
+                        },
+                        {
+                            step: "Post-Shower Treatment",
+                            product: "Paula's Choice 2% BHA Body Spot Treatment",
+                            details: "After drying, apply to back and chest to exfoliate and prevent breakouts",
+                            link: ""
+                        }
+                    ],
+                    gutHealth: [
+                        {
+                            step: "Probiotic",
+                            product: "Optibac Probiotics for IBS Support (30 Capsules)",
+                            details: "Take one capsule daily to support gut microbiome",
+                            link: ""
+                        },
+                        {
+                            step: "Soluble Fibre",
+                            product: "NaturaleBio Organic Psyllium Husk Powder",
+                            details: "Start with half teaspoon in large glass of water daily",
+                            link: ""
+                        },
+                        {
+                            step: "Peppermint Oil",
+                            product: "Colpermin IBS Relief Capsules",
+                            details: "Take as directed for IBS symptoms - enteric coating is key",
+                            link: ""
+                        }
+                    ],
+                    progress: {},
+                    streaks: { am: 0, pm: 0 },
+                    lastCompleted: { am: null, pm: null }
+                },
+                fitness: {
+                    progress: {},
+                    streak: 0,
+                    lastCompleted: null,
+                    achievements: []
+                }
+            };
+
+            const existingData = JSON.parse(localStorage.getItem('appData') || '{}');
+            const appData = { ...defaultData, ...existingData };
+            localStorage.setItem('appData', JSON.stringify(appData));
+            return appData;
+        }
+
+        function getCurrentDateInfo() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            const dateString = now.toLocaleDateString('en-US', options);
+            const dayOfWeek = now.getDay(); // 0 = Sunday, 1 = Monday, etc.
+            return { dateString, dayOfWeek, date: now };
+        }
+
+        function getTodaysSkincareRoutine() {
+            const { dayOfWeek } = getCurrentDateInfo();
+            const appData = JSON.parse(localStorage.getItem('appData'));
+            
+            // Monday(1), Wednesday(3), Friday(5) = treatment days
+            const treatmentDays = [1, 3, 5];
+            const useTreatment = treatmentDays.includes(dayOfWeek);
+            
+            return {
+                am: appData.skincare.amRoutine,
+                pm: useTreatment ? appData.skincare.pmRoutineWithTreatment : appData.skincare.pmRoutineBasic,
+                useTreatment
+            };
+        }
+
+        function updateDashboard() {
+            const { dateString } = getCurrentDateInfo();
+            const appData = JSON.parse(localStorage.getItem('appData'));
+            const todaysRoutine = getTodaysSkincareRoutine();
+            
+            // Update date
+            document.getElementById('currentDate').textContent = dateString;
+            
+            // Update skincare status
+            const today = new Date().toISOString().split('T')[0];
+            const skincareProgress = appData.skincare.progress[today] || { am: {}, pm: {} };
+            
+            const amComplete = Object.keys(skincareProgress.am).length;
+            const pmComplete = Object.keys(skincareProgress.pm).length;
+            const totalSteps = todaysRoutine.am.length + todaysRoutine.pm.length;
+            const completedSteps = amComplete + pmComplete;
+            
+            const skincarePercentage = totalSteps > 0 ? Math.round((completedSteps / totalSteps) * 100) : 0;
+            
+            document.getElementById('skincareStatus').innerHTML = `
+                ${todaysRoutine.useTreatment ? '🧪 Treatment Day' : '💧 Basic Routine'}<br>
+                <small>${completedSteps}/${totalSteps} steps completed</small>
+            `;
+            document.getElementById('skincareProgress').style.width = `${skincarePercentage}%`;
+            document.getElementById('skincareProgressText').textContent = `${skincarePercentage}% Complete`;
+            
+            // Update fitness status (simplified for dashboard)
+            const fitnessProgress = appData.fitness.progress[today] || {};
+            const fitnessPercentage = Object.keys(fitnessProgress).length > 0 ? 65 : 0; // Simplified
+            
+            document.getElementById('fitnessStatus').innerHTML = `
+                Today's Focus: ${getDayName()}<br>
+                <small>Workout plan in progress</small>
+            `;
+            document.getElementById('fitnessProgress').style.width = `${fitnessPercentage}%`;
+            document.getElementById('fitnessProgressText').textContent = `${fitnessPercentage}% Complete`;
+            
+            // Update streaks
+            document.getElementById('skincareStreak').textContent = appData.skincare.streaks.am + appData.skincare.streaks.pm;
+            document.getElementById('fitnessStreak').textContent = appData.fitness.streak;
+        }
+
+        function getDayName() {
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            return days[new Date().getDay()];
+        }
+
+        function resetAllData() {
+            if (confirm('Are you sure you want to reset all data? This cannot be undone.')) {
+                localStorage.removeItem('appData');
+                localStorage.removeItem('fitnessAppState');
+                initializeAppData();
+                updateDashboard();
+                alert('All data has been reset!');
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeAppData();
+            updateDashboard();
+            
+            // Update every minute to keep time current
+            setInterval(updateDashboard, 60000);
+        });
+    </script>
+</body>
+</html>

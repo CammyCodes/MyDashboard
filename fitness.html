@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fitness Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #ffffff;
+            color: #212121;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .nav-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 8px 16px;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-home:hover {
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 2px solid #f8f9fa;
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #6c757d;
+            margin-bottom: 20px;
+        }
+
+        .plan-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 1px solid #e9ecef;
+        }
+
+        .plan-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #007bff;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .day-selector {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 1px solid #e9ecef;
+        }
+
+        .day-selector h3 {
+            margin-bottom: 15px;
+            color: #212121;
+            text-align: center;
+        }
+
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+        }
+
+        .day-btn {
+            padding: 12px 8px;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .day-btn:hover {
+            border-color: #007bff;
+            background: #f8f9fa;
+        }
+
+        .day-btn.active {
+            border-color: #007bff;
+            background: #007bff;
+            color: white;
+        }
+
+        .progress-section {
+            margin-bottom: 30px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .progress-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #212121;
+        }
+
+        .streak-badge {
+            background: #007bff;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #007bff, #0056b3);
+            border-radius: 5px;
+            transition: width 0.8s ease;
+        }
+
+        .progress-text {
+            font-size: 0.9rem;
+            color: #007bff;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .special-instructions {
+            background: #e3f2fd;
+            border: 2px solid #007bff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .special-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #007bff;
+            margin-bottom: 15px;
+        }
+
+        .special-rules {
+            list-style: none;
+        }
+
+        .special-rules li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+            color: #1976d2;
+        }
+
+        .special-rules li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .schedule-container {
+            margin-bottom: 40px;
+        }
+
+        .schedule-item {
+            background: #ffffff;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .schedule-item:hover {
+            border-color: #007bff;
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .schedule-item.completed {
+            background: #f8f9fa;
+            border-color: #28a745;
+            opacity: 0.8;
+        }
+
+        .schedule-item.completed .activity {
+            text-decoration: line-through;
+        }
+
+        .schedule-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .schedule-checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #007bff;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .schedule-checkbox.checked {
+            background: #007bff;
+            transform: scale(1.1);
+        }
+
+        .schedule-checkbox.checked::after {
+            content: '✓';
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .time {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #007bff;
+            min-width: 70px;
+        }
+
+        .activity {
+            font-size: 1.2rem;
+            font-weight: 600;
+            flex-grow: 1;
+            color: #212121;
+        }
+
+        .category {
+            background: #e3f2fd;
+            color: #007bff;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .details {
+            margin-top: 15px;
+            padding-left: 109px;
+        }
+
+        .details ul {
+            list-style: none;
+        }
+
+        .details li {
+            color: #6c757d;
+            margin-bottom: 6px;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .details li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #007bff;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 40px 0;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.95rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #007bff;
+            color: #007bff;
+        }
+
+        .btn-outline:hover {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+            color: white;
+        }
+
+        .achievements-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+            margin-top: 40px;
+        }
+
+        .achievements-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #212121;
+        }
+
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .badge {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .badge.earned {
+            border-color: #007bff;
+            background: #e3f2fd;
+        }
+
+        .badge-icon {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .badge-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #212121;
+        }
+
+        .badge-description {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+        /* Workout Mode Overlay */
+        .workout-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .workout-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            text-align: center;
+            position: relative;
+        }
+
+        .workout-step {
+            display: none;
+        }
+
+        .workout-step.active {
+            display: block;
+        }
+
+        .workout-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .workout-activity {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #212121;
+            margin-bottom: 15px;
+        }
+
+        .workout-details {
+            font-size: 1rem;
+            color: #6c757d;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .workout-nav {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .close-workout {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6c757d;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1001;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .nav-home {
+                position: static;
+                display: inline-block;
+                margin-bottom: 20px;
+            }
+
+            .main-title {
+                font-size: 2rem;
+            }
+
+            .plan-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .days-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .schedule-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .details {
+                padding-left: 0;
+                margin-top: 10px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .workout-content {
+                margin: 20px;
+                padding: 30px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="dashboard.html" class="nav-home">← Dashboard</a>
+
+    <div class="container">
+        <div class="header">
+            <h1 class="main-title">Fitness Hub</h1>
+            <p class="subtitle">11-Week Extreme Abs Transformation Plan</p>
+        </div>
+
+        <div class="plan-info">
+            <div class="plan-stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="daysLeft">--</span>
+                    <span class="stat-label">Days Left</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="currentWeek">--</span>
+                    <span class="stat-label">Week</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="currentDay">--</span>
+                    <span class="stat-label">Day</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="completionRate">--</span>
+                    <span class="stat-label">% Complete</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="day-selector">
+            <h3>Select Day</h3>
+            <div class="days-grid" id="daySelector">
+                <!-- Day buttons will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <div class="progress-header">
+                <div class="progress-title" id="progressTitle">Today's Progress</div>
+                <div class="streak-badge" id="streakBadge">🔥 0 Day Streak</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            <div class="progress-text" id="progressText">0% Complete</div>
+        </div>
+
+        <div id="specialInstructions"></div>
+
+        <div class="schedule-container" id="scheduleContainer">
+            <!-- Schedule items will be populated by JavaScript -->
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn btn-primary" onclick="startWorkout()">Start Workout</button>
+            <button class="btn btn-outline" onclick="viewWeeklyPlan()">View Weekly Plan</button>
+            <button class="btn btn-success" onclick="markDayComplete()">Complete Day</button>
+        </div>
+
+        <div class="achievements-section">
+            <div class="achievements-title">Achievements</div>
+            <div class="badges-grid" id="achievementsBadges">
+                <!-- Achievement badges will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Workout Mode Overlay -->
+    <div class="workout-overlay" id="workoutOverlay">
+        <div class="workout-content">
+            <button class="close-workout" onclick="closeWorkout()">×</button>
+            <div id="workoutSteps">
+                <!-- Steps will be populated by JavaScript -->
+            </div>
+            <div class="workout-nav">
+                <button class="btn btn-outline" id="prevWorkoutBtn" onclick="previousWorkoutStep()" style="display: none;">Previous</button>
+                <span id="workoutStepIndicator">1 / 4</span>
+                <button class="btn btn-primary" id="nextWorkoutBtn" onclick="nextWorkoutStep()">Next Exercise</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // The comprehensive fitness plan data
+        const planData = {
+            "planTitle": "The 11-Week Extreme Abs Transformation: Detailed Schedule",
+            "planStartDate": "2025-06-16",
+            "userDetails": { "name": "User", "girlfriendName": "Alina" },
+            "gymDetails": { "name": "Downstairs Gym", "travelTime": "5 minutes", "openingHours": "06:00 - 22:00" },
+            "workDetails": { "startTime": "09:00", "travelTime": "30 minutes" },
+            "weeklySchedule": {
+                "monday": { "dayName": "Monday", "dayType": "Weight Training Day", "schedule": [{ "time": "05:30", "activity": "WAKE UP", "details": ["Drink a large glass of water.", "Optional: Black coffee or pre-workout.", "Get into gym clothes."], "category": "Routine" }, { "time": "05:55", "activity": "Arrive at Gym", "details": ["5-minute dynamic warm-up (arm circles, leg swings)."], "category": "Gym" }, { "time": "06:00", "activity": "GYM SESSION: PUSH Workout", "details": ["Workout (60 mins): Bench Press, Overhead Press, Incline Press, Lateral Raises, Triceps Pushdowns.", "HIIT Cardio (15 mins): Post-lifting, 8 rounds of 30s max effort/60s recovery on bike/rower.", "Perform Abdominal Training at the end."], "category": "Gym" }, { "time": "07:15", "activity": "Return Home & Prep Shake", "details": ["Walk back upstairs.", "Prepare Meal 4 (Post-Workout Shake) to drink after your shower."], "category": "Routine" }, { "time": "07:30", "activity": "Get Ready for Work", "details": ["Shower, get dressed for work.", "Drink Meal 4 during this time."], "category": "Routine" }, { "time": "08:30", "activity": "Leave for Work", "details": [], "category": "Travel" }, { "time": "09:00", "activity": "Work & Daytime Meals", "details": ["~10:00: Have Meal 2 (Protein Shake).", "~13:00: Have Meal 3 (Pre-packed meal).", "Ensure you drink 2-3 litres of water during the workday."], "category": "Work" }, { "time": "17:30", "activity": "Arrive Home", "details": [], "category": "Travel" }, { "time": "18:00", "activity": "Evening Wind-Down & Meal Prep", "details": ["Relax.", "Prepare all meals and gym clothes for Tuesday."], "category": "Routine" }, { "time": "20:00", "activity": "Final Meal", "details": ["Eat Meal 5 (Fish and vegetables)."], "category": "Meal" }, { "time": "21:30", "activity": "Prepare for Bed", "details": ["No screens.", "Read a book, listen to a podcast, wind down."], "category": "Routine" }, { "time": "22:00", "activity": "SLEEP", "details": ["Aim for 7.5-8 hours of sleep for optimal recovery."], "category": "Sleep" }] },
+                "tuesday": { "dayName": "Tuesday", "dayType": "Cardio & Recovery Day", "schedule": [{ "time": "05:30", "activity": "WAKE UP", "details": ["Drink a large glass of water.", "Optional: Black coffee.", "Get into gym clothes."], "category": "Routine" }, { "time": "05:55", "activity": "Arrive at Gym", "details": [], "category": "Gym" }, { "time": "06:00", "activity": "GYM SESSION: LISS Cardio", "details": ["Perform 45-60 minutes of Low-Intensity Steady-State cardio.", "e.g., Fast-paced walk on a steep incline treadmill.", "Keep heart rate around 120-140 bpm."], "category": "Gym" }, { "time": "07:00", "activity": "Return Home", "details": ["Walk back upstairs."], "category": "Routine" }, { "time": "07:30", "activity": "Get Ready for Work & Breakfast", "details": ["Shower, get dressed for work.", "Eat Meal 1 (Eggs) during this time."], "category": "Routine" }, { "time": "08:30", "activity": "Leave for Work", "details": [], "category": "Travel" }, { "time": "09:00", "activity": "Work & Daytime Meals", "details": ["~10:00: Have Meal 2 (Protein Shake).", "~13:00: Have Meal 3 (Pre-packed meal).", "Drink 2-3 litres of water."], "category": "Work" }, { "time": "17:30", "activity": "Arrive Home", "details": [], "category": "Travel" }, { "time": "18:00", "activity": "Evening Wind-Down & Meal Prep", "details": ["Relax.", "Prepare all meals and gym clothes for Wednesday."], "category": "Routine" }, { "time": "20:00", "activity": "Final Meal", "details": ["Eat Meal 5 (Fish and vegetables)."], "category": "Meal" }, { "time": "21:30", "activity": "Prepare for Bed", "details": ["No screens."], "category": "Routine" }, { "time": "22:00", "activity": "SLEEP", "details": ["Aim for 7.5-8 hours of sleep."], "category": "Sleep" }] },
+                "wednesday": { "dayName": "Wednesday", "dayType": "Weight Training Day", "schedule": [{ "time": "05:30", "activity": "WAKE UP", "details": ["Drink a large glass of water.", "Optional: Black coffee or pre-workout.", "Get into gym clothes."], "category": "Routine" }, { "time": "05:55", "activity": "Arrive at Gym", "details": ["5-minute dynamic warm-up."], "category": "Gym" }, { "time": "06:00", "activity": "GYM SESSION: PULL Workout", "details": ["Workout (60 mins): Deadlifts, Pull-Ups/Lat Pulldowns, Barbell Rows, Face Pulls, Bicep Curls.", "HIIT Cardio (15 mins): Post-lifting.", "Perform Abdominal Training at the end."], "category": "Gym" }, { "time": "07:15", "activity": "Return Home & Prep Shake", "details": ["Walk back upstairs.", "Prepare Meal 4 (Post-Workout Shake)."], "category": "Routine" }, { "time": "07:30", "activity": "Get Ready for Work", "details": ["Shower, get dressed.", "Drink Meal 4 during this time."], "category": "Routine" }, { "time": "08:30", "activity": "Leave for Work", "details": [], "category": "Travel" }, { "time": "09:00", "activity": "Work & Daytime Meals", "details": ["~10:00: Have Meal 2.", "~13:00: Have Meal 3.", "Stay hydrated."], "category": "Work" }, { "time": "17:30", "activity": "Arrive Home", "details": [], "category": "Travel" }, { "time": "18:00", "activity": "Evening Wind-Down & Meal Prep", "details": ["Relax.", "Prepare meals and gym clothes for Thursday."], "category": "Routine" }, { "time": "20:00", "activity": "Final Meal", "details": ["Eat Meal 5."], "category": "Meal" }, { "time": "21:30", "activity": "Prepare for Bed", "details": ["No screens."], "category": "Routine" }, { "time": "22:00", "activity": "SLEEP", "details": ["Aim for 7.5-8 hours of sleep."], "category": "Sleep" }] },
+                "thursday": { "dayName": "Thursday", "dayType": "Cardio & Recovery Day", "schedule": [{ "time": "05:30", "activity": "WAKE UP", "details": ["Drink a large glass of water.", "Optional: Black coffee.", "Get into gym clothes."], "category": "Routine" }, { "time": "05:55", "activity": "Arrive at Gym", "details": [], "category": "Gym" }, { "time": "06:00", "activity": "GYM SESSION: LISS Cardio", "details": ["Perform 45-60 minutes of Low-Intensity Steady-State cardio."], "category": "Gym" }, { "time": "07:00", "activity": "Return Home", "details": [], "category": "Routine" }, { "time": "07:30", "activity": "Get Ready for Work & Breakfast", "details": ["Shower, get dressed.", "Eat Meal 1 (Eggs)."], "category": "Routine" }, { "time": "08:30", "activity": "Leave for Work", "details": [], "category": "Travel" }, { "time": "09:00", "activity": "Work & Daytime Meals", "details": ["~10:00: Have Meal 2.", "~13:00: Have Meal 3.", "Stay hydrated."], "category": "Work" }, { "time": "17:30", "activity": "Arrive Home", "details": [], "category": "Travel" }, { "time": "18:00", "activity": "Evening Wind-Down & Meal Prep", "details": ["Relax.", "Prepare meals and gym clothes for Friday."], "category": "Routine" }, { "time": "20:00", "activity": "Final Meal", "details": ["Eat Meal 5."], "category": "Meal" }, { "time": "21:30", "activity": "Prepare for Bed", "details": ["No screens."], "category": "Routine" }, { "time": "22:00", "activity": "SLEEP", "details": ["Aim for 7.5-8 hours of sleep."], "category": "Sleep" }] },
+                "friday": { "dayName": "Friday", "dayType": "Weight Training Day", "schedule": [{ "time": "05:30", "activity": "WAKE UP", "details": ["Drink a large glass of water.", "Optional: Black coffee or pre-workout.", "Get into gym clothes."], "category": "Routine" }, { "time": "05:55", "activity": "Arrive at Gym", "details": ["5-minute dynamic warm-up."], "category": "Gym" }, { "time": "06:00", "activity": "GYM SESSION: LEGS Workout", "details": ["Workout (60 mins): Squats, Leg Press, Romanian Deadlifts, Leg Extensions, Hamstring Curls.", "HIIT Cardio (15 mins): Post-lifting.", "Perform Abdominal Training at the end."], "category": "Gym" }, { "time": "07:15", "activity": "Return Home & Prep Shake", "details": ["Walk back upstairs.", "Prepare Meal 4 (Post-Workout Shake)."], "category": "Routine" }, { "time": "07:30", "activity": "Get Ready for Work", "details": ["Shower, get dressed.", "Drink Meal 4."], "category": "Routine" }, { "time": "08:30", "activity": "Leave for Work", "details": [], "category": "Travel" }, { "time": "09:00", "activity": "Work & Daytime Meals", "details": ["~10:00: Have Meal 2.", "~13:00: Have Meal 3.", "Stay hydrated."], "category": "Work" }, { "time": "17:30", "activity": "Arrive Home", "details": [], "category": "Travel" }, { "time": "18:00", "activity": "Evening Wind-Down", "details": ["Relax after a long week."], "category": "Routine" }, { "time": "20:00", "activity": "Final Meal", "details": ["Eat Meal 5."], "category": "Meal" }, { "time": "21:30", "activity": "Prepare for Bed", "details": ["No screens."], "category": "Routine" }, { "time": "22:00", "activity": "SLEEP", "details": ["Aim for 7.5-8 hours of sleep."], "category": "Sleep" }] },
+                "saturday": { "dayName": "Saturday", "dayType": "High-Volume Training & Meal Out", "specialInstructions": { "title": "The 'Alina' Strategy: Damage Control", "rules": ["Daytime diet must be ZERO Carb / ZERO Fat to create a calorie buffer.", "During the meal out, your goal is 'Protein and Veggies'.", "Order grilled steak, fish, or chicken (no oil/butter).", "Swap all starchy sides (chips, potatoes, rice) for double steamed vegetables or a plain side salad.", "Avoid bread baskets, creamy sauces, fried foods, and desserts.", "Drink only still or sparkling water.", "This meal is a compromise and will slow progress slightly compared to a perfect week, but this strategy minimizes the impact."] }, "schedule": [{ "time": "07:00", "activity": "WAKE UP", "details": ["Wake up without an alarm if possible, but no later than 07:00.", "Drink water, have black coffee."], "category": "Routine" }, { "time": "08:00", "activity": "GYM SESSION: High-Volume Upper Body", "details": ["Workout (60 mins): Focus on weak points (e.g., shoulders, back) with moderate weight for higher reps (10-15).", "Abs (15 mins): High-intensity ab circuit.", "Cardio (30 mins): Finish with 30 minutes of LISS cardio."], "category": "Gym" }, { "time": "10:00", "activity": "Post-Workout Meal (Strict)", "details": ["Have a large protein shake (50g protein) with WATER ONLY."], "category": "Meal" }, { "time": "14:00", "activity": "Lunch (Strict)", "details": ["Eat 200g of plain grilled chicken breast with steamed green beans. No fats or carbs."], "category": "Meal" }, { "time": "14:30", "activity": "Free Time", "details": ["Relax, run errands, prepare for your evening."], "category": "Routine" }, { "time": "19:00", "activity": "EVENING: Meal out with Alina", "details": ["Enjoy your time!", "Follow the special instructions for ordering your meal carefully."], "category": "Social" }] },
+                "sunday": { "dayName": "Sunday", "dayType": "Active Recovery & Full Prep", "schedule": [{ "time": "08:00", "activity": "WAKE UP", "details": ["Wake up without an alarm.", "Hydrate well throughout the day."], "category": "Routine" }, { "time": "10:00", "activity": "Breakfast", "details": ["Eat Meal 1 (Eggs). Get back on the standard plan immediately."], "category": "Meal" }, { "time": "11:00", "activity": "Active Recovery", "details": ["No gym.", "Go for a long, gentle walk.", "Perform some light stretching or mobility work."], "category": "Routine" }, { "time": "13:00", "activity": "Lunch", "details": ["Eat Meal 3 (Pre-packed meal)."], "category": "Meal" }, { "time": "14:00", "activity": "MEAL PREP FOR THE WEEK", "details": ["This is a crucial task.", "Cook and pack your lunches and dinners for at least Monday, Tuesday, and Wednesday.", "This sets your week up for success."], "category": "Routine" }, { "time": "16:00", "activity": "Snack", "details": ["Have Meal 2 (Protein Shake)."], "category": "Meal" }, { "time": "18:00", "activity": "Relax & Wind Down", "details": ["Enjoy your evening."], "category": "Routine" }, { "time": "20:00", "activity": "Final Meal", "details": ["Eat Meal 5."], "category": "Meal" }, { "time": "21:30", "activity": "Prepare for Bed", "details": ["Get clothes ready for Monday's workout.", "Wind down, no screens."], "category": "Routine" }, { "time": "22:00", "activity": "SLEEP", "details": ["Get a full night's sleep to start the week strong."], "category": "Sleep" }] }
+            }
+        };
+
+        const achievements = [
+            { id: 'day1', name: 'First Step', description: 'Complete your first day', icon: '🚀' },
+            { id: 'week1', name: 'Week Warrior', description: 'Complete your first week', icon: '💪' },
+            { id: 'perfect_week', name: 'The Perfect Week', description: '7 days at 100%', icon: '⭐' },
+            { id: 'streak_7', name: 'Unstoppable', description: '7-day perfect streak', icon: '🔥' },
+            { id: 'saturday_warrior', name: 'Social Discipline', description: 'Perfect Saturday execution', icon: '🏆' }
+        ];
+
+        const encouragingMessages = [
+            "Excellent work! 💪", "Stay consistent! 🔥", "Progress made! ⚡", 
+            "Keep pushing! 🚀", "Almost there! ⭐", "Great discipline! 👏"
+        ];
+
+        let appData;
+        let currentlyViewedDay;
+        let workoutSteps = [];
+        let currentWorkoutStep = 0;
+
+        function loadAppData() {
+            const stored = localStorage.getItem('appData');
+            if (stored) {
+                appData = JSON.parse(stored);
+                if (!appData.fitness) {
+                    appData.fitness = {
+                        progress: {},
+                        streak: 0,
+                        lastCompleted: null,
+                        achievements: []
+                    };
+                }
+            } else {
+                appData = {
+                    fitness: {
+                        progress: {},
+                        streak: 0,
+                        lastCompleted: null,
+                        achievements: []
+                    }
+                };
+            }
+            saveAppData();
+        }
+
+        function saveAppData() {
+            localStorage.setItem('appData', JSON.stringify(appData));
+        }
+
+        function getCurrentDayName() {
+            const daysOfWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+            return daysOfWeek[new Date().getDay()];
+        }
+
+        function getDayInfo() {
+            const startDate = new Date(planData.planStartDate);
+            const currentDate = new Date();
+            const dayDifference = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
+            const totalDays = 77;
+            const daysLeft = Math.max(0, totalDays - dayDifference);
+            const currentWeek = Math.min(Math.floor(dayDifference / 7) + 1, 11);
+            const currentDay = dayDifference + 1;
+            const isWithinPlan = dayDifference >= 0 && dayDifference < totalDays;
+            
+            return { daysLeft, currentWeek, currentDay, isWithinPlan, dayDifference };
+        }
+
+        function initializeDaySelector() {
+            const daySelector = document.getElementById('daySelector');
+            const dayOrder = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+            
+            dayOrder.forEach(dayKey => {
+                const dayData = planData.weeklySchedule[dayKey];
+                const button = document.createElement('button');
+                button.className = 'day-btn';
+                button.dataset.day = dayKey;
+                button.textContent = `${dayData.dayName} - ${dayData.dayType}`;
+                button.addEventListener('click', () => renderDay(dayKey));
+                daySelector.appendChild(button);
+            });
+
+            // Set current day as active
+            const currentDayName = getCurrentDayName();
+            renderDay(currentDayName);
+        }
+
+        function renderDay(dayKey) {
+            currentlyViewedDay = dayKey;
+            const dayData = planData.weeklySchedule[dayKey];
+
+            // Update active button
+            document.querySelectorAll('.day-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.day === dayKey);
+            });
+
+            // Update progress title
+            document.getElementById('progressTitle').textContent = `${dayData.dayName}'s Progress`;
+
+            // Render special instructions
+            const specialContainer = document.getElementById('specialInstructions');
+            specialContainer.innerHTML = '';
+            if (dayData.specialInstructions) {
+                const specialDiv = document.createElement('div');
+                specialDiv.className = 'special-instructions';
+                specialDiv.innerHTML = `
+                    <div class="special-title">${dayData.specialInstructions.title}</div>
+                    <ul class="special-rules">
+                        ${dayData.specialInstructions.rules.map(rule => `<li>${rule}</li>`).join('')}
+                    </ul>
+                `;
+                specialContainer.appendChild(specialDiv);
+            }
+
+            // Render schedule
+            renderSchedule(dayKey);
+            updateProgress(dayKey);
+        }
+
+        function renderSchedule(dayKey) {
+            const scheduleContainer = document.getElementById('scheduleContainer');
+            const dayData = planData.weeklySchedule[dayKey];
+            const today = new Date().toISOString().split('T')[0];
+            const tasksForDay = appData.fitness.progress[`${today}_${dayKey}`] || {};
+
+            scheduleContainer.innerHTML = '';
+
+            dayData.schedule.forEach((item, index) => {
+                const isCompleted = tasksForDay[index] || false;
+                const scheduleItem = document.createElement('div');
+                scheduleItem.className = `schedule-item ${isCompleted ? 'completed' : ''}`;
+                
+                let detailsHTML = '';
+                if (item.details && item.details.length > 0) {
+                    detailsHTML = `
+                        <div class="details">
+                            <ul>
+                                ${item.details.map(detail => `<li>${detail}</li>`).join('')}
+                            </ul>
+                        </div>`;
+                }
+                
+                scheduleItem.innerHTML = `
+                    <div class="schedule-header">
+                        <div class="schedule-checkbox ${isCompleted ? 'checked' : ''}" data-index="${index}"></div>
+                        <div class="time">${item.time}</div>
+                        <div class="activity">${item.activity}</div>
+                        <div class="category">${item.category}</div>
+                    </div>
+                    ${detailsHTML}
+                `;
+
+                scheduleItem.querySelector('.schedule-checkbox').addEventListener('click', () => toggleTask(dayKey, index));
+                scheduleContainer.appendChild(scheduleItem);
+            });
+        }
+
+        function toggleTask(dayKey, taskIndex) {
+            const today = new Date().toISOString().split('T')[0];
+            const progressKey = `${today}_${dayKey}`;
+            
+            if (!appData.fitness.progress[progressKey]) {
+                appData.fitness.progress[progressKey] = {};
+            }
+
+            const isCurrentlyCompleted = appData.fitness.progress[progressKey][taskIndex] || false;
+            appData.fitness.progress[progressKey][taskIndex] = !isCurrentlyCompleted;
+
+            // Update streak if completing
+            if (!isCurrentlyCompleted) {
+                const dayData = planData.weeklySchedule[dayKey];
+                const completed = Object.keys(appData.fitness.progress[progressKey]).filter(key => appData.fitness.progress[progressKey][key]).length;
+                
+                if (completed === dayData.schedule.length) {
+                    appData.fitness.streak++;
+                    appData.fitness.lastCompleted = today;
+                    showNotification(encouragingMessages[Math.floor(Math.random() * encouragingMessages.length)]);
+                    checkAchievements();
+                }
+            }
+
+            saveAppData();
+            renderSchedule(dayKey);
+            updateProgress(dayKey);
+        }
+
+        function updateProgress(dayKey) {
+            const dayData = planData.weeklySchedule[dayKey];
+            const today = new Date().toISOString().split('T')[0];
+            const progressKey = `${today}_${dayKey}`;
+            const tasksForDay = appData.fitness.progress[progressKey] || {};
+
+            const totalTasks = dayData.schedule.length;
+            const completedTaskCount = Object.values(tasksForDay).filter(Boolean).length;
+            const progressPercentage = totalTasks > 0 ? Math.round((completedTaskCount / totalTasks) * 100) : 0;
+
+            document.getElementById('progressFill').style.width = `${progressPercentage}%`;
+            document.getElementById('progressText').textContent = `${progressPercentage}% Complete (${completedTaskCount}/${totalTasks})`;
+            document.getElementById('streakBadge').textContent = `🔥 ${appData.fitness.streak} Day Streak`;
+        }
+
+        function startWorkout() {
+            const dayData = planData.weeklySchedule[currentlyViewedDay];
+            workoutSteps = dayData.schedule.filter(item => item.category === 'Gym');
+            currentWorkoutStep = 0;
+            
+            const overlay = document.getElementById('workoutOverlay');
+            const stepsContainer = document.getElementById('workoutSteps');
+            
+            stepsContainer.innerHTML = '';
+            workoutSteps.forEach((step, index) => {
+                const stepDiv = document.createElement('div');
+                stepDiv.className = `workout-step ${index === 0 ? 'active' : ''}`;
+                stepDiv.innerHTML = `
+                    <div class="workout-title">${step.activity}</div>
+                    <div class="workout-activity">Time: ${step.time}</div>
+                    <div class="workout-details">${step.details.join('<br>')}</div>
+                `;
+                stepsContainer.appendChild(stepDiv);
+            });
+            
+            updateWorkoutNavigation();
+            overlay.style.display = 'flex';
+        }
+
+        function nextWorkoutStep() {
+            if (currentWorkoutStep < workoutSteps.length - 1) {
+                document.querySelectorAll('.workout-step')[currentWorkoutStep].classList.remove('active');
+                currentWorkoutStep++;
+                document.querySelectorAll('.workout-step')[currentWorkoutStep].classList.add('active');
+                updateWorkoutNavigation();
+            } else {
+                closeWorkout();
+            }
+        }
+
+        function previousWorkoutStep() {
+            if (currentWorkoutStep > 0) {
+                document.querySelectorAll('.workout-step')[currentWorkoutStep].classList.remove('active');
+                currentWorkoutStep--;
+                document.querySelectorAll('.workout-step')[currentWorkoutStep].classList.add('active');
+                updateWorkoutNavigation();
+            }
+        }
+
+        function updateWorkoutNavigation() {
+            const prevBtn = document.getElementById('prevWorkoutBtn');
+            const nextBtn = document.getElementById('nextWorkoutBtn');
+            const indicator = document.getElementById('workoutStepIndicator');
+            
+            prevBtn.style.display = currentWorkoutStep > 0 ? 'inline-block' : 'none';
+            nextBtn.textContent = currentWorkoutStep === workoutSteps.length - 1 ? 'Finish Workout' : 'Next Exercise';
+            indicator.textContent = `${currentWorkoutStep + 1} / ${workoutSteps.length}`;
+        }
+
+        function closeWorkout() {
+            document.getElementById('workoutOverlay').style.display = 'none';
+        }
+
+        function markDayComplete() {
+            const dayData = planData.weeklySchedule[currentlyViewedDay];
+            const today = new Date().toISOString().split('T')[0];
+            const progressKey = `${today}_${currentlyViewedDay}`;
+            
+            if (!appData.fitness.progress[progressKey]) {
+                appData.fitness.progress[progressKey] = {};
+            }
+
+            dayData.schedule.forEach((_, index) => {
+                appData.fitness.progress[progressKey][index] = true;
+            });
+
+            appData.fitness.streak++;
+            appData.fitness.lastCompleted = today;
+            
+            saveAppData();
+            renderSchedule(currentlyViewedDay);
+            updateProgress(currentlyViewedDay);
+            showNotification("Day completed! Great work! 🏆");
+            checkAchievements();
+        }
+
+        function checkAchievements() {
+            // First day achievement
+            if (appData.fitness.streak >= 1 && !appData.fitness.achievements.includes('day1')) {
+                earnAchievement('day1');
+            }
+            // First week achievement
+            if (appData.fitness.streak >= 7 && !appData.fitness.achievements.includes('week1')) {
+                earnAchievement('week1');
+            }
+            // 7-day streak achievement
+            if (appData.fitness.streak >= 7 && !appData.fitness.achievements.includes('streak_7')) {
+                earnAchievement('streak_7');
+            }
+        }
+
+        function earnAchievement(achievementId) {
+            if (!appData.fitness.achievements.includes(achievementId)) {
+                appData.fitness.achievements.push(achievementId);
+                const achievement = achievements.find(a => a.id === achievementId);
+                if (achievement) {
+                    showNotification(`🏆 Achievement Unlocked: ${achievement.name}!`);
+                    updateAchievementsDisplay();
+                    saveAppData();
+                }
+            }
+        }
+
+        function updateAchievementsDisplay() {
+            const badgesContainer = document.getElementById('achievementsBadges');
+            badgesContainer.innerHTML = '';
+            achievements.forEach(achievement => {
+                const badge = document.createElement('div');
+                badge.className = `badge ${appData.fitness.achievements.includes(achievement.id) ? 'earned' : ''}`;
+                badge.innerHTML = `
+                    <div class="badge-icon">${achievement.icon}</div>
+                    <div class="badge-name">${achievement.name}</div>
+                    <div class="badge-description">${achievement.description}</div>
+                `;
+                badgesContainer.appendChild(badge);
+            });
+        }
+
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        function viewWeeklyPlan() {
+            alert('Weekly plan view would show all 7 days in a calendar format. This feature can be expanded!');
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAppData();
+            
+            const dayInfo = getDayInfo();
+            document.getElementById('daysLeft').textContent = dayInfo.daysLeft;
+            document.getElementById('currentWeek').textContent = dayInfo.currentWeek;
+            document.getElementById('currentDay').textContent = dayInfo.currentDay;
+            
+            const totalDays = 77;
+            const completionRate = Math.round(((totalDays - dayInfo.daysLeft) / totalDays) * 100);
+            document.getElementById('completionRate').textContent = completionRate;
+
+            initializeDaySelector();
+            updateAchievementsDisplay();
+        });
+    </script>
+</body>
+</html>

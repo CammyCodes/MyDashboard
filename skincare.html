@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skincare Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #ffffff;
+            color: #212121;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .top-nav {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 2px solid #f8f9fa;
+        }
+
+        .main-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #6c757d;
+            margin-bottom: 20px;
+        }
+
+        .day-selector {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 1px solid #e9ecef;
+        }
+
+        .day-selector h3 {
+            margin-bottom: 15px;
+            color: #212121;
+            text-align: center;
+        }
+
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+        }
+
+        .day-btn {
+            padding: 12px 8px;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .day-btn:hover {
+            border-color: #007bff;
+            background: #f8f9fa;
+        }
+
+        .day-btn.active {
+            border-color: #007bff;
+            background: #007bff;
+            color: white;
+        }
+
+        .day-btn.treatment-day {
+            position: relative;
+        }
+
+        .day-btn.treatment-day::after {
+            content: '🧪';
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            font-size: 12px;
+        }
+
+        .section-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 4px;
+            margin-bottom: 30px;
+            border: 1px solid #e9ecef;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px 15px;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #6c757d;
+            white-space: nowrap;
+            min-width: 120px;
+        }
+
+        .tab-btn.active {
+            background: #007bff;
+            color: white;
+            transform: scale(1.02);
+        }
+
+        .routine-info {
+            background: #e3f2fd;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border-left: 4px solid #007bff;
+        }
+
+        .routine-info h4 {
+            color: #007bff;
+            margin-bottom: 5px;
+        }
+
+        .routine-info p {
+            color: #1976d2;
+            font-size: 0.95rem;
+        }
+
+        .progress-section {
+            margin-bottom: 30px;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .progress-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #212121;
+        }
+
+        .streak-badge {
+            background: #007bff;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #007bff, #0056b3);
+            border-radius: 5px;
+            transition: width 0.8s ease;
+        }
+
+        .progress-text {
+            font-size: 0.9rem;
+            color: #007bff;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .section-content {
+            display: none;
+        }
+
+        .section-content.active {
+            display: block;
+        }
+
+        .steps-container {
+            margin-bottom: 40px;
+        }
+
+        .step-card {
+            background: #ffffff;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .step-card:hover {
+            border-color: #007bff;
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .step-card.completed {
+            background: #f8f9fa;
+            border-color: #28a745;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .step-checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #007bff;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .step-checkbox.checked {
+            background: #007bff;
+            transform: scale(1.1);
+        }
+
+        .step-checkbox.checked::after {
+            content: '✓';
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .step-number {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #007bff;
+            min-width: 60px;
+        }
+
+        .step-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            flex-grow: 1;
+            color: #212121;
+        }
+
+        .step-content {
+            padding-left: 99px;
+        }
+
+        .step-product {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #495057;
+            margin-bottom: 8px;
+        }
+
+        .step-details {
+            font-size: 0.95rem;
+            color: #6c757d;
+            line-height: 1.4;
+        }
+
+        .info-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+            margin-bottom: 20px;
+        }
+
+        .info-section h3 {
+            color: #007bff;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .info-section h4 {
+            color: #212121;
+            margin-bottom: 10px;
+            margin-top: 15px;
+        }
+
+        .info-list {
+            list-style: none;
+            margin-bottom: 15px;
+        }
+
+        .info-list li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+            color: #495057;
+        }
+
+        .info-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .highlight-box {
+            background: #e3f2fd;
+            border: 1px solid #007bff;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .highlight-box strong {
+            color: #007bff;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 40px 0;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0.95rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #007bff;
+            color: #007bff;
+        }
+
+        .btn-outline:hover {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+            color: white;
+        }
+
+        /* Walkthrough Mode Styles */
+        .walkthrough-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .walkthrough-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            text-align: center;
+            position: relative;
+        }
+
+        .walkthrough-step {
+            display: none;
+        }
+
+        .walkthrough-step.active {
+            display: block;
+        }
+
+        .walkthrough-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .walkthrough-product {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #212121;
+            margin-bottom: 15px;
+        }
+
+        .walkthrough-details {
+            font-size: 1rem;
+            color: #6c757d;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .walkthrough-nav {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .close-walkthrough {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6c757d;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .main-title {
+                font-size: 2rem;
+            }
+
+            .days-grid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            }
+
+            .section-tabs {
+                flex-direction: column;
+            }
+
+            .tab-btn {
+                min-width: auto;
+            }
+
+            .step-content {
+                padding-left: 0;
+                margin-top: 15px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .walkthrough-content {
+                margin: 20px;
+                padding: 30px 25px;
+            }
+
+            .top-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-nav">
+            <a href="dashboard.html" class="nav-btn">← Dashboard</a>
+            <a href="fitness.html" class="nav-btn">💪 Fitness Hub</a>
+            <a href="skincare.html" class="nav-btn">🧴 Skincare Hub</a>
+        </div>
+
+        <div class="header">
+            <h1 class="main-title">Skincare Hub</h1>
+            <p class="subtitle">Your Complete & Updated Holistic Plan</p>
+        </div>
+
+        <div class="day-selector">
+            <h3>Select Day</h3>
+            <div class="days-grid">
+                <button class="day-btn" data-day="0">Sunday</button>
+                <button class="day-btn treatment-day" data-day="1">Monday</button>
+                <button class="day-btn treatment-day" data-day="2">Tuesday</button>
+                <button class="day-btn treatment-day" data-day="3">Wednesday</button>
+                <button class="day-btn" data-day="4">Thursday</button>
+                <button class="day-btn" data-day="5">Friday</button>
+                <button class="day-btn" data-day="6">Saturday</button>
+            </div>
+        </div>
+
+        <div class="section-tabs">
+            <button class="tab-btn active" data-section="facial">Facial Skincare</button>
+            <button class="tab-btn" data-section="body">Shower & Body</button>
+            <button class="tab-btn" data-section="gut">Gut Health</button>
+            <button class="tab-btn" data-section="principles">Key Principles</button>
+        </div>
+
+        <!-- Facial Skincare Section -->
+        <div class="section-content active" id="facial-section">
+            <div class="routine-info" id="routineInfo">
+                <h4>Today's AM Routine</h4>
+                <p>Standard morning routine - same every day</p>
+            </div>
+
+            <div class="section-tabs" style="margin-top: 20px;">
+                <button class="tab-btn active" data-routine="am">AM Routine</button>
+                <button class="tab-btn" data-routine="pm">PM Routine</button>
+            </div>
+
+            <div class="progress-section">
+                <div class="progress-header">
+                    <div class="progress-title" id="progressTitle">Today's Progress</div>
+                    <div class="streak-badge" id="streakBadge">🔥 0 Day Streak</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+                <div class="progress-text" id="progressText">0% Complete</div>
+            </div>
+
+            <div class="steps-container" id="stepsContainer">
+                <!-- Steps will be populated by JavaScript -->
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="startWalkthrough()">Start Walkthrough</button>
+                <button class="btn btn-outline" onclick="toggleEditMode()">Edit Routine</button>
+                <button class="btn btn-success" onclick="markAllComplete()">Complete All</button>
+            </div>
+        </div>
+
+        <!-- Shower & Body Section -->
+        <div class="section-content" id="body-section">
+            <div class="info-section">
+                <h3>Complete Shower & Body Protocol</h3>
+                <p style="margin-bottom: 20px;">This section is designed to treat body acne effectively by using the right products in the right order.</p>
+                
+                <h4>A. Hair Care & Critical Shower Method</h4>
+                <p>The <strong>order</strong> of your routine is essential to prevent hair product residue from causing breakouts on your back and chest.</p>
+                <div class="highlight-box">
+                    <ol style="margin: 0; padding-left: 20px;">
+                        <li><strong>Shampoo First:</strong> Wash your hair.</li>
+                        <li><strong>Condition Second:</strong> Apply conditioner, then use a clip or hair tie to keep your hair up and off your back.</li>
+                        <li><strong>Rinse Hair Third:</strong> Rinse the conditioner out thoroughly.</li>
+                        <li><strong>Wash Your Body LAST:</strong> This ensures all hair product residue is washed away from your skin.</li>
+                    </ol>
+                </div>
+                
+                <ul class="info-list">
+                    <li><strong>Recommended Shampoo:</strong> Faith in Nature Tea Tree Shampoo</li>
+                    <li><strong>Expert Tip:</strong> For very stubborn bumps on the chest or back, use <strong>Nizoral Anti-Dandruff Shampoo</strong> 1-2 times per week. Apply it like a body mask to affected areas, leave for 3-5 minutes, then rinse. This targets fungal acne, a common imposter.</li>
+                    <li><strong>Recommended Conditioner:</strong> Faith in Nature Tea Tree Conditioner</li>
+                </ul>
+
+                <h4>B. Active Body Wash</h4>
+                <p><strong>Instruction:</strong> After rinsing your hair conditioner, wash your body, focusing on acne-prone areas. Lather and leave on the skin for 1-2 minutes before the final rinse to allow the active ingredients to work.</p>
+                <ul class="info-list">
+                    <li><strong>Product:</strong> CeraVe SA Smoothing Cleanser</li>
+                </ul>
+
+                <h4>C. Post-Shower Leave-On Treatment</h4>
+                <p><strong>Instruction:</strong> After showering, pat your skin dry. Apply a thin layer of this treatment lotion directly to the affected areas on your back and chest. Do not rinse off.</p>
+                <ul class="info-list">
+                    <li><strong>Product:</strong> Paula's Choice Weightless Body Treatment 2% BHA</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Gut Health Section -->
+        <div class="section-content" id="gut-section">
+            <div class="info-section">
+                <h3>Gut Health & IBS Support</h3>
+                <ul class="info-list">
+                    <li><strong>Probiotic:</strong> Take one capsule daily to support your gut microbiome.
+                        <br><strong>Product:</strong> Optibac Probiotics for IBS Support</li>
+                    <li><strong>Soluble Fibre:</strong> Start with half a teaspoon in a large glass of water daily.
+                        <br><strong>Product:</strong> NaturaleBio Organic Psyllium Husk Powder</li>
+                    <li><strong>Peppermint Oil:</strong> Take as directed for IBS symptoms.
+                        <br><strong>Product:</strong> Colpermin IBS Relief Capsules</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Key Principles Section -->
+        <div class="section-content" id="principles-section">
+            <div class="info-section">
+                <h3>Key Principles for Success</h3>
+                <ul class="info-list">
+                    <li><strong>Consistency:</strong> Stick to the plan daily. Results in skin and gut health are cumulative and take time.</li>
+                    <li><strong>Hygiene:</strong> Change your pillowcases at least twice a week and regularly wipe down your phone screen.</li>
+                    <li><strong>Hands Off:</strong> Avoid picking or squeezing blemishes on your face or body. This worsens inflammation and can lead to scarring. Let the products do the work.</li>
+                    <li><strong>Mindful Diet & Hydration:</strong> Continue to manage your IBS triggers and prioritise drinking plenty of water throughout the day for overall skin and gut health.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Walkthrough Overlay -->
+    <div class="walkthrough-overlay" id="walkthroughOverlay">
+        <div class="walkthrough-content">
+            <button class="close-walkthrough" onclick="closeWalkthrough()">×</button>
+            <div id="walkthroughSteps">
+                <!-- Steps will be populated by JavaScript -->
+            </div>
+            <div class="walkthrough-nav">
+                <button class="btn btn-outline" id="prevBtn" onclick="previousStep()" style="display: none;">Previous</button>
+                <span id="stepIndicator">1 / 4</span>
+                <button class="btn btn-primary" id="nextBtn" onclick="nextStep()">Next Step</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let appData;
+        let currentDay = new Date().getDay();
+        let currentRoutine = 'am';
+        let currentSection = 'facial';
+        let walkthroughSteps = [];
+        let currentWalkthroughStep = 0;
+
+        // Treatment days: Monday(1), Tuesday(2), Wednesday(3) - when PM routine includes exfoliation
+        const treatmentDays = [1, 2, 3];
+
+        function loadAppData() {
+            const stored = localStorage.getItem('appData');
+            if (stored) {
+                appData = JSON.parse(stored);
+            } else {
+                // Initialize with updated data structure
+                appData = {
+                    skincare: {
+                        amRoutine: [
+                            {
+                                step: "Cleanse",
+                                product: "Kiehl's Blue Herbal Acne Cleanser Treatment",
+                                details: "Use morning and night to remove oil buildup without stripping your skin",
+                                link: ""
+                            },
+                            {
+                                step: "Treat",
+                                product: "Kiehl's Ultra Pure High-Potency Serum 5.0% Niacinamide",
+                                details: "Apply a few drops to control oil and reduce redness",
+                                link: ""
+                            },
+                            {
+                                step: "Moisturise",
+                                product: "Kiehl's Ultra Facial Oil-Free Gel Cream",
+                                details: "Apply a pea-sized amount for lightweight, shine-free hydration",
+                                link: ""
+                            },
+                            {
+                                step: "Protect (SPF)",
+                                product: "Kiehl's Ultra Light Daily UV Defense SPF 50 PA++++",
+                                details: "Apply liberally as the final step - crucial for preventing acne marks from darkening",
+                                link: ""
+                            }
+                        ],
+                        pmRoutineBasic: [
+                            {
+                                step: "Double Cleanse - Oil",
+                                product: "Kiehl's Midnight Recovery Botanical Cleansing Oil",
+                                details: "On dry face, massage to dissolve SPF and oil. Add water to emulsify, then rinse",
+                                link: ""
+                            },
+                            {
+                                step: "Double Cleanse - Gel",
+                                product: "Kiehl's Blue Herbal Acne Cleanser Treatment",
+                                details: "On damp face, use morning cleanser to wash the skin itself",
+                                link: ""
+                            },
+                            {
+                                step: "Moisturise",
+                                product: "Kiehl's Ultra Facial Oil-Free Gel Cream",
+                                details: "Use same moisturiser as AM routine to hydrate and support skin",
+                                link: ""
+                            }
+                        ],
+                        pmRoutineWithTreatment: [
+                            {
+                                step: "Double Cleanse - Oil",
+                                product: "Kiehl's Midnight Recovery Botanical Cleansing Oil",
+                                details: "On dry face, massage to dissolve SPF and oil. Add water to emulsify, then rinse",
+                                link: ""
+                            },
+                            {
+                                step: "Double Cleanse - Gel",
+                                product: "Kiehl's Blue Herbal Acne Cleanser Treatment",
+                                details: "On damp face, use morning cleanser to wash the skin itself",
+                                link: ""
+                            },
+                            {
+                                step: "Exfoliate/Treat",
+                                product: "Kiehl's Expertly Clear Blemish-Treating & Preventing Lotion",
+                                details: "On clean, dry skin, apply to clear blackheads and prevent blemishes (2-3 times per week only)",
+                                link: ""
+                            },
+                            {
+                                step: "Moisturise",
+                                product: "Kiehl's Ultra Facial Oil-Free Gel Cream",
+                                details: "Use same moisturiser as AM routine to hydrate and support skin",
+                                link: ""
+                            }
+                        ],
+                        progress: {},
+                        streaks: { am: 0, pm: 0 },
+                        lastCompleted: { am: null, pm: null }
+                    }
+                };
+                saveAppData();
+            }
+        }
+
+        function saveAppData() {
+            localStorage.setItem('appData', JSON.stringify(appData));
+        }
+
+        function getCurrentRoutineSteps() {
+            if (currentRoutine === 'am') {
+                return appData.skincare.amRoutine;
+            } else {
+                const useTreatment = treatmentDays.includes(currentDay);
+                return useTreatment ? appData.skincare.pmRoutineWithTreatment : appData.skincare.pmRoutineBasic;
+            }
+        }
+
+        function updateRoutineInfo() {
+            const routineInfo = document.getElementById('routineInfo');
+            const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const dayName = dayNames[currentDay];
+            const isTreatmentDay = treatmentDays.includes(currentDay);
+            
+            if (currentRoutine === 'am') {
+                routineInfo.innerHTML = `
+                    <h4>${dayName}'s AM Routine</h4>
+                    <p>Standard morning routine - same every day (4 steps)</p>
+                `;
+            } else {
+                routineInfo.innerHTML = `
+                    <h4>${dayName}'s PM Routine</h4>
+                    <p>${isTreatmentDay ? '🧪 Treatment Day - includes exfoliating step (Mon/Tue/Wed)' : '💧 Basic routine - gentle cleansing only (3 steps)'}</p>
+                `;
+            }
+        }
+
+        function renderSteps() {
+            if (currentSection !== 'facial') return;
+            
+            const container = document.getElementById('stepsContainer');
+            const steps = getCurrentRoutineSteps();
+            const today = new Date().toISOString().split('T')[0];
+            const progressKey = `${today}_${currentRoutine}`;
+            const progress = appData.skincare.progress[progressKey] || {};
+
+            container.innerHTML = '';
+
+            steps.forEach((step, index) => {
+                const isCompleted = progress[index] || false;
+                const stepCard = document.createElement('div');
+                stepCard.className = `step-card ${isCompleted ? 'completed' : ''}`;
+                stepCard.innerHTML = `
+                    <div class="step-header">
+                        <div class="step-checkbox ${isCompleted ? 'checked' : ''}" data-index="${index}"></div>
+                        <div class="step-number">Step ${index + 1}</div>
+                        <div class="step-title">${step.step}</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="step-product">${step.product}</div>
+                        <div class="step-details">${step.details}</div>
+                    </div>
+                `;
+
+                stepCard.querySelector('.step-checkbox').addEventListener('click', () => toggleStep(index));
+                container.appendChild(stepCard);
+            });
+
+            updateProgress();
+        }
+
+        function toggleStep(index) {
+            const today = new Date().toISOString().split('T')[0];
+            const progressKey = `${today}_${currentRoutine}`;
+            
+            if (!appData.skincare.progress[progressKey]) {
+                appData.skincare.progress[progressKey] = {};
+            }
+
+            const isCurrentlyCompleted = appData.skincare.progress[progressKey][index] || false;
+            appData.skincare.progress[progressKey][index] = !isCurrentlyCompleted;
+
+            // Update streaks if completing routine
+            if (!isCurrentlyCompleted) {
+                const steps = getCurrentRoutineSteps();
+                const completed = Object.keys(appData.skincare.progress[progressKey]).length;
+                if (completed === steps.length) {
+                    appData.skincare.streaks[currentRoutine]++;
+                    appData.skincare.lastCompleted[currentRoutine] = today;
+                }
+            }
+
+            saveAppData();
+            renderSteps();
+        }
+
+        function updateProgress() {
+            if (currentSection !== 'facial') return;
+            
+            const steps = getCurrentRoutineSteps();
+            const today = new Date().toISOString().split('T')[0];
+            const progressKey = `${today}_${currentRoutine}`;
+            const progress = appData.skincare.progress[progressKey] || {};
+            
+            const completed = Object.keys(progress).filter(key => progress[key]).length;
+            const percentage = steps.length > 0 ? Math.round((completed / steps.length) * 100) : 0;
+
+            document.getElementById('progressFill').style.width = `${percentage}%`;
+            document.getElementById('progressText').textContent = `${percentage}% Complete (${completed}/${steps.length})`;
+            
+            const totalStreak = appData.skincare.streaks.am + appData.skincare.streaks.pm;
+            document.getElementById('streakBadge').textContent = `🔥 ${totalStreak} Day Streak`;
+        }
+
+        function startWalkthrough() {
+            if (currentSection !== 'facial') return;
+            
+            const steps = getCurrentRoutineSteps();
+            walkthroughSteps = [...steps];
+            currentWalkthroughStep = 0;
+            
+            const overlay = document.getElementById('walkthroughOverlay');
+            const stepsContainer = document.getElementById('walkthroughSteps');
+            
+            stepsContainer.innerHTML = '';
+            steps.forEach((step, index) => {
+                const stepDiv = document.createElement('div');
+                stepDiv.className = `walkthrough-step ${index === 0 ? 'active' : ''}`;
+                stepDiv.innerHTML = `
+                    <div class="walkthrough-title">${step.step}</div>
+                    <div class="walkthrough-product">${step.product}</div>
+                    <div class="walkthrough-details">${step.details}</div>
+                `;
+                stepsContainer.appendChild(stepDiv);
+            });
+            
+            updateWalkthroughNavigation();
+            overlay.style.display = 'flex';
+        }
+
+        function nextStep() {
+            if (currentWalkthroughStep < walkthroughSteps.length - 1) {
+                document.querySelectorAll('.walkthrough-step')[currentWalkthroughStep].classList.remove('active');
+                currentWalkthroughStep++;
+                document.querySelectorAll('.walkthrough-step')[currentWalkthroughStep].classList.add('active');
+                updateWalkthroughNavigation();
+            } else {
+                closeWalkthrough();
+            }
+        }
+
+        function previousStep() {
+            if (currentWalkthroughStep > 0) {
+                document.querySelectorAll('.walkthrough-step')[currentWalkthroughStep].classList.remove('active');
+                currentWalkthroughStep--;
+                document.querySelectorAll('.walkthrough-step')[currentWalkthroughStep].classList.add('active');
+                updateWalkthroughNavigation();
+            }
+        }
+
+        function updateWalkthroughNavigation() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const indicator = document.getElementById('stepIndicator');
+            
+            prevBtn.style.display = currentWalkthroughStep > 0 ? 'inline-block' : 'none';
+            nextBtn.textContent = currentWalkthroughStep === walkthroughSteps.length - 1 ? 'Complete' : 'Next Step';
+            indicator.textContent = `${currentWalkthroughStep + 1} / ${walkthroughSteps.length}`;
+        }
+
+        function closeWalkthrough() {
+            document.getElementById('walkthroughOverlay').style.display = 'none';
+        }
+
+        function markAllComplete() {
+            if (currentSection !== 'facial') return;
+            
+            const steps = getCurrentRoutineSteps();
+            const today = new Date().toISOString().split('T')[0];
+            const progressKey = `${today}_${currentRoutine}`;
+            
+            if (!appData.skincare.progress[progressKey]) {
+                appData.skincare.progress[progressKey] = {};
+            }
+
+            steps.forEach((_, index) => {
+                appData.skincare.progress[progressKey][index] = true;
+            });
+
+            appData.skincare.streaks[currentRoutine]++;
+            appData.skincare.lastCompleted[currentRoutine] = today;
+            
+            saveAppData();
+            renderSteps();
+        }
+
+        function toggleEditMode() {
+            alert('Edit mode would allow you to modify products and routine steps. This feature can be expanded based on your needs!');
+        }
+
+        function switchSection(sectionName) {
+            currentSection = sectionName;
+            
+            // Update tab buttons
+            document.querySelectorAll('.section-tabs .tab-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.section === sectionName);
+            });
+
+            // Update content sections
+            document.querySelectorAll('.section-content').forEach(section => {
+                section.classList.toggle('active', section.id === `${sectionName}-section`);
+            });
+
+            if (sectionName === 'facial') {
+                renderSteps();
+            }
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAppData();
+            
+            // Set current day as active
+            document.querySelector(`[data-day="${currentDay}"]`).classList.add('active');
+            
+            // Day selector buttons
+            document.querySelectorAll('.day-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentDay = parseInt(btn.dataset.day);
+                    updateRoutineInfo();
+                    renderSteps();
+                });
+            });
+
+            // Section tab buttons
+            document.querySelectorAll('.section-tabs .tab-btn[data-section]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    switchSection(btn.dataset.section);
+                });
+            });
+
+            // Routine toggle buttons (only for facial section)
+            document.querySelectorAll('.section-tabs .tab-btn[data-routine]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.tab-btn[data-routine]').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentRoutine = btn.dataset.routine;
+                    updateRoutineInfo();
+                    renderSteps();
+                });
+            });
+
+            updateRoutineInfo();
+            renderSteps();
+        });
+    </script>
+</body>
+</html>
